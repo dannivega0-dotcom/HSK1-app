@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -96,19 +97,20 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .rules-header h2 { font-size: 16px; font-weight: 600; }
 .rules-header .rule-prog { margin-left: auto; font-size: 12px; color: var(--text3); font-weight: 500; }
 
-.cards-viewport { flex: 1; overflow: hidden; position: relative; padding: 20px 0; }
+.cards-viewport { flex: 1; overflow-x: hidden; overflow-y: auto; position: relative; }
 .cards-track {
   display: flex; transition: transform .35s cubic-bezier(.4,0,.2,1);
-  align-items: flex-start; height: 100%;
+  align-items: flex-start;
 }
 .rule-card {
-  min-width: calc(100vw - 40px); margin: 0 8px;
+  min-width: calc(100vw - 32px); width: calc(100vw - 32px);
+  margin: 16px 8px; flex-shrink: 0;
   background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow);
-  flex-shrink: 0;
+  border-radius: var(--radius); padding: 20px 18px; box-shadow: var(--shadow);
+  overflow-y: auto;
 }
-.rule-card:first-child { margin-left: 20px; }
-.rule-card:last-child { margin-right: 20px; }
+.rule-card:first-child { margin-left: 16px; }
+.rule-card:last-child { margin-right: 16px; }
 .rule-icon { font-size: 32px; margin-bottom: 14px; }
 .rule-tag {
   display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: .08em;
@@ -609,9 +611,9 @@ function buildDots(){
 function moveCard(dir, init){
   if(!init) ruleCur+=dir;
   ruleCur=Math.max(0,Math.min(TOTAL_RULES-1,ruleCur));
-  const trackW=document.querySelector('.rule-card').parentElement.children[0].offsetWidth||window.innerWidth-16;
-  const cardW=window.innerWidth-40+16;
-  document.getElementById('cards-track').style.transform=`translateX(${-ruleCur*(window.innerWidth-24)}px)`;
+  ||window.innerWidth-16;
+  
+  const cardW=window.innerWidth-16; document.getElementById('cards-track').style.transform=`translateX(${-ruleCur*cardW}px)`;
   document.getElementById('rule-prog').textContent=(ruleCur+1)+' / '+TOTAL_RULES;
   document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===ruleCur));
   document.getElementById('prev-btn').disabled=ruleCur===0;
