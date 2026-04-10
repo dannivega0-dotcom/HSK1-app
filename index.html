@@ -611,7 +611,6 @@ function buildDots(){
 function moveCard(dir, init){
   if(!init) ruleCur+=dir;
   ruleCur=Math.max(0,Math.min(TOTAL_RULES-1,ruleCur));
-  ||window.innerWidth-16;
   
   const cardW=window.innerWidth-16; document.getElementById('cards-track').style.transform=`translateX(${-ruleCur*cardW}px)`;
   document.getElementById('rule-prog').textContent=(ruleCur+1)+' / '+TOTAL_RULES;
