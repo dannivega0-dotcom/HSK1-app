@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HSK 1 — Repaso Completo</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f5f0;
+  --surface: #ffffff;
+  --surface2: #f0ede6;
+  --border: #e2ddd4;
+  --text: #1a1816;
+  --text2: #6b6560;
+  --text3: #a09a93;
+  --red: #c94a3a;
+  --red-bg: #fdf1ef;
+  --green: #2d7a4f;
+  --green-bg: #eef7f2;
+  --blue: #2557a7;
+  --blue-bg: #eef3fc;
+  --amber: #8a6200;
+  --amber-bg: #fdf6e3;
+  --purple: #6b3fa0;
+  --purple-bg: #f3eefb;
+  --teal: #1a7a6e;
+  --teal-bg: #e8f7f5;
+  --shadow: 0 2px 16px rgba(0,0,0,0.08);
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+
+/* ── SCREENS ── */
+.screen { display: none; min-height: 100vh; }
+.screen.active { display: flex; flex-direction: column; }
+
+/* ══ SPLASH SCREEN ══ */
+#splash {
+  background: linear-gradient(160deg, #1a1816 0%, #2d2520 60%, #3d1f1a 100%);
+  align-items: center; justify-content: center; padding: 2rem;
+  position: relative; overflow: hidden;
+}
+#splash::before {
+  content: '汉'; position: absolute; font-family: 'Noto Sans SC', sans-serif;
+  font-size: 320px; font-weight: 700; color: rgba(255,255,255,0.03);
+  top: -60px; right: -60px; line-height: 1; pointer-events: none;
+}
+.splash-inner { text-align: center; z-index: 1; max-width: 360px; }
+.splash-badge {
+  display: inline-block; background: var(--red); color: #fff;
+  font-size: 11px; font-weight: 600; letter-spacing: .12em;
+  text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 20px;
+}
+.splash-title {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 72px; font-weight: 700;
+  color: #fff; line-height: 1; margin-bottom: 8px;
+}
+.splash-sub { font-size: 22px; font-weight: 500; color: rgba(255,255,255,0.5); margin-bottom: 8px; }
+.splash-desc { font-size: 14px; color: rgba(255,255,255,0.35); margin-bottom: 40px; line-height: 1.6; }
+.splash-refran {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius); padding: 20px; margin-bottom: 32px; text-align: left;
+}
+.refran-label { font-size: 10px; font-weight: 600; letter-spacing: .1em; color: rgba(255,255,255,0.3); text-transform: uppercase; margin-bottom: 10px; }
+.refran-char { font-family: 'Noto Sans SC', sans-serif; font-size: 20px; color: #fff; margin-bottom: 6px; line-height: 1.5; }
+.refran-py { font-size: 13px; color: rgba(255,255,255,0.45); margin-bottom: 6px; font-style: italic; }
+.refran-es { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.5; }
+.btn-start {
+  width: 100%; padding: 16px; border-radius: var(--radius-sm); border: none;
+  background: var(--red); color: #fff; font-size: 16px; font-weight: 600;
+  cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .15s;
+  margin-bottom: 12px;
+}
+.btn-start:hover { background: #b03e2f; transform: translateY(-1px); }
+.btn-rules {
+  width: 100%; padding: 13px; border-radius: var(--radius-sm);
+  border: 1px solid rgba(255,255,255,0.15); background: transparent;
+  color: rgba(255,255,255,0.7); font-size: 14px; font-weight: 500;
+  cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .15s;
+}
+.btn-rules:hover { background: rgba(255,255,255,0.08); }
+
+/* ══ RULES / CARDS SCREEN ══ */
+#rules-screen { background: var(--bg); }
+.rules-header {
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  padding: 14px 20px; display: flex; align-items: center; gap: 12px;
+}
+.back-btn {
+  background: none; border: none; font-size: 20px; cursor: pointer;
+  color: var(--text2); padding: 0 4px;
+}
+.rules-header h2 { font-size: 16px; font-weight: 600; }
+.rules-header .rule-prog { margin-left: auto; font-size: 12px; color: var(--text3); font-weight: 500; }
+
+.cards-viewport { flex: 1; overflow: hidden; position: relative; padding: 20px 0; }
+.cards-track {
+  display: flex; transition: transform .35s cubic-bezier(.4,0,.2,1);
+  align-items: flex-start; height: 100%;
+}
+.rule-card {
+  min-width: calc(100vw - 40px); margin: 0 8px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow);
+  flex-shrink: 0;
+}
+.rule-card:first-child { margin-left: 20px; }
+.rule-card:last-child { margin-right: 20px; }
+.rule-icon { font-size: 32px; margin-bottom: 14px; }
+.rule-tag {
+  display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: .08em;
+  text-transform: uppercase; padding: 3px 10px; border-radius: 20px; margin-bottom: 12px;
+}
+.tag-blue { background: var(--blue-bg); color: var(--blue); }
+.tag-red { background: var(--red-bg); color: var(--red); }
+.tag-green { background: var(--green-bg); color: var(--green); }
+.tag-purple { background: var(--purple-bg); color: var(--purple); }
+.tag-amber { background: var(--amber-bg); color: var(--amber); }
+.tag-teal { background: var(--teal-bg); color: var(--teal); }
+.rule-title { font-size: 20px; font-weight: 600; margin-bottom: 6px; line-height: 1.3; }
+.rule-sub { font-size: 13px; color: var(--text2); margin-bottom: 18px; line-height: 1.6; }
+.rule-example {
+  background: var(--surface2); border-radius: var(--radius-sm);
+  padding: 14px 16px; margin-bottom: 10px;
+  border-left: 3px solid var(--border);
+}
+.rule-example.ex-blue { border-left-color: var(--blue); }
+.rule-example.ex-red { border-left-color: var(--red); }
+.rule-example.ex-green { border-left-color: var(--green); }
+.rule-example.ex-purple { border-left-color: var(--purple); }
+.rule-example.ex-amber { border-left-color: var(--amber); }
+.rule-example.ex-teal { border-left-color: var(--teal); }
+.ex-char { font-family: 'Noto Sans SC', sans-serif; font-size: 18px; color: var(--text); margin-bottom: 3px; }
+.ex-py { font-size: 12px; color: var(--text2); margin-bottom: 2px; font-style: italic; }
+.ex-tr { font-size: 12px; color: var(--text3); }
+.rule-note {
+  font-size: 12px; color: var(--text2); background: var(--amber-bg);
+  border-radius: 8px; padding: 10px 12px; margin-top: 14px; line-height: 1.6;
+}
+.rule-note strong { color: var(--amber); }
+.structure-row {
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.struct-box {
+  padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: 500;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+}
+.struct-box span { font-size: 10px; font-weight: 400; opacity: .7; }
+.struct-arrow { color: var(--text3); font-size: 14px; }
+.tone-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+.tone-card {
+  background: var(--surface2); border-radius: 8px; padding: 12px;
+  text-align: center;
+}
+.tone-num { font-size: 22px; font-weight: 700; line-height: 1; }
+.tone-name { font-size: 11px; color: var(--text2); margin: 3px 0; }
+.tone-ex { font-family: 'Noto Sans SC', sans-serif; font-size: 16px; }
+.compare-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+.compare-box { border-radius: 8px; padding: 12px; }
+
+.cards-nav { display: flex; align-items: center; justify-content: space-between; padding: 0 20px 20px; gap: 10px; }
+.nav-btn {
+  padding: 10px 20px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border); background: var(--surface);
+  font-size: 14px; font-weight: 500; cursor: pointer;
+  color: var(--text); font-family: 'DM Sans', sans-serif; transition: all .15s;
+}
+.nav-btn:hover { background: var(--surface2); }
+.nav-btn:disabled { opacity: .3; cursor: default; }
+.nav-btn.primary { background: var(--red); color: #fff; border-color: var(--red); }
+.nav-btn.primary:hover { background: #b03e2f; }
+.dots { display: flex; gap: 5px; }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); transition: all .2s; }
+.dot.active { background: var(--red); width: 18px; border-radius: 3px; }
+
+/* ══ MAIN APP SCREEN ══ */
+#app-screen { background: var(--bg); }
+.top-bar {
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  padding: 13px 16px; display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 10;
+}
+.top-bar-left { display: flex; align-items: center; gap: 10px; }
+.top-back { background: none; border: none; font-size: 18px; cursor: pointer; color: var(--text2); }
+.top-bar h1 { font-size: 15px; font-weight: 600; }
+.top-bar h1 span { color: var(--red); }
+.pills { display: flex; gap: 5px; }
+.pill { font-size: 11px; font-weight: 500; padding: 3px 9px; border-radius: 20px; display: flex; align-items: center; gap: 3px; }
+.pill-green { background: var(--green-bg); color: var(--green); }
+.pill-amber { background: var(--amber-bg); color: var(--amber); }
+.tabs-wrap { padding: 12px 12px 0; }
+.tabs { display: grid; grid-template-columns: repeat(5,1fr); gap: 5px; }
+.tab {
+  padding: 8px 3px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+  font-size: 10px; font-weight: 500; text-align: center; cursor: pointer;
+  color: var(--text2); background: var(--surface); transition: all .15s; line-height: 1.4;
+}
+.tab:hover { background: var(--surface2); }
+.tab.active { background: var(--red); color: #fff; border-color: var(--red); }
+.tab .ti { font-size: 15px; display: block; margin-bottom: 2px; }
+.prog-wrap { padding: 10px 12px 0; }
+.prog { display: flex; gap: 3px; margin-bottom: 4px; }
+.pd { flex: 1; height: 4px; border-radius: 2px; background: var(--border); transition: background .3s; }
+.pd.done { background: var(--green); } .pd.cur { background: var(--blue); } .pd.retry { background: #e8a020; }
+.prog-label { font-size: 11px; color: var(--text3); }
+.main { padding: 10px 12px; }
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 18px; margin-bottom: 10px; box-shadow: var(--shadow);
+}
+.card.is-retry { border-color: #e8a020; background: #fffdf5; }
+.etype { font-size: 10px; font-weight: 600; color: var(--text3); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 7px; }
+.retry-banner {
+  font-size: 12px; color: var(--amber); font-weight: 500;
+  background: var(--amber-bg); padding: 5px 10px; border-radius: 6px;
+  margin-bottom: 9px; display: inline-flex; align-items: center; gap: 5px;
+}
+.qtext { font-size: 15px; color: var(--text); line-height: 1.6; margin-bottom: 12px; }
+.char-big {
+  font-family: 'Noto Sans SC', sans-serif; font-size: 72px; font-weight: 700;
+  color: var(--text); line-height: 1; text-align: center; margin-bottom: 10px;
+}
+.pinyin-row { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 14px; }
+.pyin { font-size: 15px; color: var(--text2); font-weight: 500; }
+.tone-badge { font-size: 11px; padding: 2px 8px; border-radius: 20px; background: var(--surface2); color: var(--text3); }
+.audio-btn {
+  background: var(--surface2); border: 1px solid var(--border); border-radius: 50%;
+  width: 32px; height: 32px; cursor: pointer; font-size: 14px;
+  display: inline-flex; align-items: center; justify-content: center; transition: all .15s;
+}
+.audio-btn:hover { background: var(--border); }
+.audio-btn-lg { width: 58px; height: 58px; font-size: 24px; background: var(--blue-bg); border-color: #b8ccec; display: flex; margin: 0 auto; }
+.sentence-box {
+  font-family: 'Noto Sans SC', sans-serif; background: var(--surface2);
+  border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 12px;
+  font-size: 17px; color: var(--text); line-height: 1.75; border-left: 3px solid var(--red);
+}
+.pinyin-line { font-size: 12px; color: var(--text2); margin-top: 3px; line-height: 1.6; font-style: italic; }
+.trans-line { font-size: 12px; color: var(--text3); margin-top: 2px; font-style: italic; }
+.opts { display: flex; flex-direction: column; gap: 6px; }
+.opts2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.opt {
+  padding: 10px 13px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+  font-size: 13px; cursor: pointer; color: var(--text); background: var(--surface);
+  text-align: left; transition: all .15s; font-family: 'DM Sans', sans-serif; line-height: 1.4;
+}
+.opt-char { font-family: 'Noto Sans SC', sans-serif; font-size: 17px; display: block; margin-bottom: 1px; }
+.opt:hover { background: var(--surface2); }
+.opt.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); font-weight: 500; }
+.opt.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+.fb { font-size: 13px; padding: 9px 12px; border-radius: var(--radius-sm); margin-top: 9px; line-height: 1.55; }
+.fb.c { background: var(--green-bg); color: var(--green); }
+.fb.w { background: var(--red-bg); color: var(--red); }
+.nxt {
+  width: 100%; padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--border);
+  font-size: 14px; font-weight: 500; cursor: pointer; background: var(--surface);
+  color: var(--text); font-family: 'DM Sans', sans-serif; transition: all .15s;
+}
+.nxt:hover { background: var(--surface2); }
+.nxt.primary { background: var(--red); color: #fff; border-color: var(--red); }
+.nxt.primary:hover { background: #b03e2f; }
+.level-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.level-label { font-size: 12px; color: var(--text2); }
+.toggle-wrap { display: flex; background: var(--surface2); border-radius: 6px; padding: 2px; gap: 2px; }
+.toggle-opt { font-size: 11px; padding: 3px 9px; border-radius: 4px; cursor: pointer; color: var(--text2); font-weight: 500; transition: all .15s; }
+.toggle-opt.active { background: var(--surface); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+/* dialogue */
+.dialogue-scene { font-size: 12px; color: var(--text2); background: var(--surface2); padding: 7px 11px; border-radius: 6px; margin-bottom: 12px; font-style: italic; }
+.bubble-wrap { margin-bottom: 14px; }
+.bubble-row { display: flex; margin-bottom: 9px; gap: 7px; align-items: flex-start; }
+.bubble-row.right { flex-direction: row-reverse; }
+.avatar { width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: #fff; }
+.av-a { background: var(--blue); } .av-b { background: var(--red); }
+.bubble { max-width: 82%; background: var(--surface2); border-radius: 12px; padding: 8px 12px; }
+.bubble-row.right .bubble { background: var(--blue-bg); }
+.bchar { font-family: 'Noto Sans SC', sans-serif; font-size: 15px; display: block; line-height: 1.5; }
+.bpyin { font-size: 11px; color: var(--text2); margin-top: 2px; display: block; font-style: italic; }
+.btrans { font-size: 11px; color: var(--text3); margin-top: 1px; display: block; }
+.done-card { text-align: center; padding: 2rem 1.5rem; }
+</style>
+</head>
+<body>
+
+<!-- ══ SPLASH ══ -->
+<div id="splash" class="screen active">
+  <div class="splash-inner">
+    <div class="splash-badge">HSK 1 · Nivel básico</div>
+    <div class="splash-title">中文</div>
+    <div class="splash-sub">Repaso completo</div>
+    <div class="splash-desc">150 palabras · 5 modos de ejercicio · sistema de repetición inteligente</div>
+    <div class="splash-refran" id="refran-box">
+      <div class="refran-label">Refrán del día</div>
+      <div class="refran-char" id="rf-char"></div>
+      <div class="refran-py" id="rf-py"></div>
+      <div class="refran-es" id="rf-es"></div>
+    </div>
+    <button class="btn-start" onclick="goApp()">Empezar a practicar →</button>
+    <button class="btn-rules" onclick="goRules()">Ver reglas del chino</button>
+  </div>
+</div>
+
+<!-- ══ RULES SCREEN ══ -->
+<div id="rules-screen" class="screen">
+  <div class="rules-header">
+    <button class="back-btn" onclick="goSplash()">←</button>
+    <h2>Reglas del chino</h2>
+    <div class="rule-prog" id="rule-prog">1 / 9</div>
+  </div>
+  <div class="cards-viewport" id="cards-vp">
+    <div class="cards-track" id="cards-track">
+
+      <!-- CARD 1: Estructura S+V+O -->
+      <div class="rule-card">
+        <div class="rule-icon">🏗️</div>
+        <div class="rule-tag tag-blue">Gramática esencial</div>
+        <div class="rule-title">Estructura básica: Sujeto + Verbo + Objeto</div>
+        <div class="rule-sub">El chino sigue el mismo orden que el español en oraciones simples. La diferencia está en dónde van el tiempo y los adverbios.</div>
+        <div class="structure-row">
+          <div class="struct-box" style="background:var(--blue-bg);color:var(--blue);">S<span>sujeto</span></div>
+          <div class="struct-arrow">→</div>
+          <div class="struct-box" style="background:var(--red-bg);color:var(--red);">V<span>verbo</span></div>
+          <div class="struct-arrow">→</div>
+          <div class="struct-box" style="background:var(--green-bg);color:var(--green);">O<span>objeto</span></div>
+        </div>
+        <div class="rule-example ex-blue">
+          <div class="ex-char">我 <span style="color:var(--red)">喝</span> 茶。</div>
+          <div class="ex-py">Wǒ hē chá.</div>
+          <div class="ex-tr">Yo bebo té.</div>
+        </div>
+        <div class="rule-example ex-blue">
+          <div class="ex-char">她 <span style="color:var(--red)">学</span> 汉语。</div>
+          <div class="ex-py">Tā xué Hànyǔ.</div>
+          <div class="ex-tr">Ella estudia chino.</div>
+        </div>
+        <div class="rule-note"><strong>⚡ Clave:</strong> El tiempo (hoy, mañana, ayer) va ANTES del verbo, no después como en español. 今天我喝茶 = Hoy yo bebo té.</div>
+      </div>
+
+      <!-- CARD 2: Negación -->
+      <div class="rule-card">
+        <div class="rule-icon">🚫</div>
+        <div class="rule-tag tag-red">Negación</div>
+        <div class="rule-title">Negar en chino: 不 y 没</div>
+        <div class="rule-sub">Solo hay dos palabras para negar. Cada una tiene su propio territorio — nunca se intercambian.</div>
+        <div class="rule-example ex-red">
+          <div class="ex-char" style="font-size:22px;font-weight:700;">不 (bù)</div>
+          <div class="ex-py" style="font-style:normal;color:var(--text2);margin-top:4px;">Niega verbos de estado, habilidad, intención y adjetivos</div>
+          <div class="ex-char" style="margin-top:8px;">我不是老师。<span style="font-size:12px;color:var(--text2)"> Yo no soy maestro.</span></div>
+          <div class="ex-char">我不喜欢冷天气。<span style="font-size:12px;color:var(--text2)"> No me gusta el frío.</span></div>
+        </div>
+        <div class="rule-example ex-red">
+          <div class="ex-char" style="font-size:22px;font-weight:700;">没 (méi)</div>
+          <div class="ex-py" style="font-style:normal;color:var(--text2);margin-top:4px;">Niega 有 (tener) y acciones que ya ocurrieron</div>
+          <div class="ex-char" style="margin-top:8px;">我没有钱。<span style="font-size:12px;color:var(--text2)"> No tengo dinero.</span></div>
+        </div>
+        <div class="rule-note"><strong>⚡ Regla de oro:</strong> 不 para el presente/futuro/hábitos. 没 para 有 y el pasado. Si dudas, usa 不.</div>
+      </div>
+
+      <!-- CARD 3: Los 4 tonos -->
+      <div class="rule-card">
+        <div class="rule-icon">🎵</div>
+        <div class="rule-tag tag-purple">Pronunciación</div>
+        <div class="rule-title">Los 4 tonos del mandarín</div>
+        <div class="rule-sub">En chino el tono cambia el significado de la palabra. La misma sílaba con tono diferente = palabra diferente.</div>
+        <div class="tone-grid">
+          <div class="tone-card" style="background:var(--blue-bg);">
+            <div class="tone-num" style="color:var(--blue);">1° ¯</div>
+            <div class="tone-name">Alto y plano</div>
+            <div class="tone-ex">māma (妈) mamá</div>
+          </div>
+          <div class="tone-card" style="background:var(--green-bg);">
+            <div class="tone-num" style="color:var(--green);">2° ´</div>
+            <div class="tone-name">Sube (¿eh?)</div>
+            <div class="tone-ex">máma (麻) cáñamo</div>
+          </div>
+          <div class="tone-card" style="background:var(--amber-bg);">
+            <div class="tone-num" style="color:var(--amber);">3° ˇ</div>
+            <div class="tone-name">Baja y sube</div>
+            <div class="tone-ex">mǎma (马) caballo</div>
+          </div>
+          <div class="tone-card" style="background:var(--red-bg);">
+            <div class="tone-num" style="color:var(--red);">4° `</div>
+            <div class="tone-name">Baja fuerte (¡no!)</div>
+            <div class="tone-ex">màma (骂) regañar</div>
+          </div>
+        </div>
+        <div class="rule-note"><strong>⚡ Truco:</strong> El 3° tono en conversación normal suena más como un tono bajo plano. Solo sube si es la última sílaba de la frase.</div>
+      </div>
+
+      <!-- CARD 4: 吗 -->
+      <div class="rule-card">
+        <div class="rule-icon">❓</div>
+        <div class="rule-tag tag-teal">Partículas</div>
+        <div class="rule-title">Hacer preguntas con 吗 (ma)</div>
+        <div class="rule-sub">En chino no cambias el orden de la oración para preguntar. Solo añades 吗 al final de cualquier afirmación.</div>
+        <div class="structure-row">
+          <div class="struct-box" style="background:var(--surface2);color:var(--text2);">Afirmación</div>
+          <div class="struct-arrow">+</div>
+          <div class="struct-box" style="background:var(--teal-bg);color:var(--teal);">吗<span>al final</span></div>
+          <div class="struct-arrow">=</div>
+          <div class="struct-box" style="background:var(--teal-bg);color:var(--teal);">Pregunta</div>
+        </div>
+        <div class="rule-example ex-teal">
+          <div class="ex-char">你是老师。→ 你是老师<span style="color:var(--teal);font-weight:700;">吗</span>？</div>
+          <div class="ex-py">Nǐ shì lǎoshī. → Nǐ shì lǎoshī ma?</div>
+          <div class="ex-tr">Eres maestro. → ¿Eres maestro?</div>
+        </div>
+        <div class="rule-example ex-teal">
+          <div class="ex-char">你喜欢茶。→ 你喜欢茶<span style="color:var(--teal);font-weight:700;">吗</span>？</div>
+          <div class="ex-py">Nǐ xǐhuan chá. → Nǐ xǐhuan chá ma?</div>
+          <div class="ex-tr">Te gusta el té. → ¿Te gusta el té?</div>
+        </div>
+        <div class="rule-note"><strong>⚡ Recuerda:</strong> 吗 solo funciona para preguntas de sí/no. Para preguntar "qué, quién, dónde" usas las palabras interrogativas directamente en la oración.</div>
+      </div>
+
+      <!-- CARD 5: 的 -->
+      <div class="rule-card">
+        <div class="rule-icon">🔗</div>
+        <div class="rule-tag tag-purple">Partículas</div>
+        <div class="rule-title">La partícula posesiva 的 (de)</div>
+        <div class="rule-sub">的 funciona como el apóstrofe en inglés ('s) o la palabra "de" en español para indicar posesión y descripción.</div>
+        <div class="structure-row">
+          <div class="struct-box" style="background:var(--purple-bg);color:var(--purple);">Poseedor</div>
+          <div class="struct-arrow">+</div>
+          <div class="struct-box" style="background:var(--purple-bg);color:var(--purple);">的</div>
+          <div class="struct-arrow">+</div>
+          <div class="struct-box" style="background:var(--purple-bg);color:var(--purple);">Objeto</div>
+        </div>
+        <div class="rule-example ex-purple">
+          <div class="ex-char">我<span style="color:var(--purple);font-weight:700;">的</span>老师</div>
+          <div class="ex-py">wǒ de lǎoshī</div>
+          <div class="ex-tr">mi maestro (literalmente: yo + 的 + maestro)</div>
+        </div>
+        <div class="rule-example ex-purple">
+          <div class="ex-char">她<span style="color:var(--purple);font-weight:700;">的</span>朋友是中国人。</div>
+          <div class="ex-py">Tā de péngyou shì Zhōngguó rén.</div>
+          <div class="ex-tr">Su amigo es chino.</div>
+        </div>
+        <div class="rule-note"><strong>⚡ Atajo:</strong> Entre pronombres y familia/personas cercanas, 的 suele omitirse en conversación. 我妈妈 (mi mamá) es más natural que 我的妈妈.</div>
+      </div>
+
+      <!-- CARD 6: 了 -->
+      <div class="rule-card">
+        <div class="rule-icon">⏱️</div>
+        <div class="rule-tag tag-amber">Partículas</div>
+        <div class="rule-title">La partícula de cambio 了 (le)</div>
+        <div class="rule-sub">了 no es un tiempo verbal. Indica que algo cambió o que una acción se completó. Es una de las partículas más usadas del chino.</div>
+        <div class="rule-example ex-amber">
+          <div class="ex-char" style="color:var(--amber);font-size:14px;margin-bottom:4px;">Uso 1 — Acción completada:</div>
+          <div class="ex-char">她女儿今年二十岁<span style="color:var(--amber);font-weight:700;">了</span>。</div>
+          <div class="ex-py">Tā nǚ'ér jīnnián èrshí suì le.</div>
+          <div class="ex-tr">Su hija ya tiene 20 años este año. (cambio — antes tenía menos)</div>
+        </div>
+        <div class="rule-example ex-amber">
+          <div class="ex-char" style="color:var(--amber);font-size:14px;margin-bottom:4px;">Uso 2 — Situación nueva:</div>
+          <div class="ex-char">下雨<span style="color:var(--amber);font-weight:700;">了</span>。</div>
+          <div class="ex-py">Xià yǔ le.</div>
+          <div class="ex-tr">Empezó a llover. (nuevo estado: antes no llovía)</div>
+        </div>
+        <div class="rule-note"><strong>⚡ Mental model:</strong> Cada vez que veas 了, pregúntate: "¿qué cambió?" La respuesta es el significado de 了 en esa oración.</div>
+      </div>
+
+      <!-- CARD 7: 会 vs 坐 -->
+      <div class="rule-card">
+        <div class="rule-icon">⚡</div>
+        <div class="rule-tag tag-red">Diferencias clave</div>
+        <div class="rule-title">会 vs 坐 — el par que confunde</div>
+        <div class="rule-sub">Son los dos verbos que más se confunden en HSK 1. Cada uno vive en su propio contexto.</div>
+        <div class="compare-row">
+          <div class="compare-box" style="background:var(--blue-bg);">
+            <div style="font-family:'Noto Sans SC',sans-serif;font-size:36px;font-weight:700;color:var(--blue);text-align:center;">会</div>
+            <div style="font-size:13px;font-weight:600;color:var(--blue);text-align:center;margin-bottom:6px;">huì — saber/poder</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.6;">Habilidad aprendida. Siempre va antes de otro verbo.</div>
+            <div style="font-family:'Noto Sans SC',sans-serif;margin-top:8px;font-size:14px;">我会说中文</div>
+            <div style="font-size:11px;color:var(--text3);">Sé hablar chino.</div>
+          </div>
+          <div class="compare-box" style="background:var(--red-bg);">
+            <div style="font-family:'Noto Sans SC',sans-serif;font-size:36px;font-weight:700;color:var(--red);text-align:center;">坐</div>
+            <div style="font-size:13px;font-weight:600;color:var(--red);text-align:center;margin-bottom:6px;">zuò — ir en</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.6;">Medio de transporte. Siempre va seguido del vehículo.</div>
+            <div style="font-family:'Noto Sans SC',sans-serif;margin-top:8px;font-size:14px;">坐飞机去</div>
+            <div style="font-size:11px;color:var(--text3);">Ir en avión.</div>
+          </div>
+        </div>
+        <div class="rule-note"><strong>⚡ Test rápido:</strong> ¿Puedes poner "aprender" antes? → 会. ¿Puedes poner "taxi/tren/avión" después? → 坐.</div>
+      </div>
+
+      <!-- CARD 8: Estructura del tiempo -->
+      <div class="rule-card">
+        <div class="rule-icon">📅</div>
+        <div class="rule-tag tag-green">Tiempo y fechas</div>
+        <div class="rule-title">Cómo expresar tiempo: de grande a pequeño</div>
+        <div class="rule-sub">En chino el tiempo siempre va de lo más grande a lo más pequeño. Al revés que en inglés, igual que en español para fechas.</div>
+        <div class="structure-row" style="flex-wrap:wrap;">
+          <div class="struct-box" style="background:var(--green-bg);color:var(--green);">年<span>año</span></div>
+          <div class="struct-arrow">→</div>
+          <div class="struct-box" style="background:var(--green-bg);color:var(--green);">月<span>mes</span></div>
+          <div class="struct-arrow">→</div>
+          <div class="struct-box" style="background:var(--green-bg);color:var(--green);">号<span>día</span></div>
+          <div class="struct-arrow">→</div>
+          <div class="struct-box" style="background:var(--green-bg);color:var(--green);">时<span>hora</span></div>
+        </div>
+        <div class="rule-example ex-green">
+          <div class="ex-char">二零二五年 + 三月 + 十号</div>
+          <div class="ex-py">Èr líng èr wǔ nián + sān yuè + shí hào</div>
+          <div class="ex-tr">Año 2025 + mes 3 + día 10 = 10 de marzo de 2025</div>
+        </div>
+        <div class="rule-example ex-green">
+          <div class="ex-char">今天上午九点我去学校。</div>
+          <div class="ex-py">Jīntiān shàngwǔ jiǔ diǎn wǒ qù xuéxiào.</div>
+          <div class="ex-tr">Hoy en la mañana a las 9 voy a la escuela.</div>
+        </div>
+        <div class="rule-note"><strong>⚡ Regla:</strong> El tiempo va ANTES del sujeto o justo después. Nunca al final como en inglés ("I go to school at 9 today" ← eso en chino sería incorrecto).</div>
+      </div>
+
+      <!-- CARD 9: Interrogativas -->
+      <div class="rule-card">
+        <div class="rule-icon">🗺️</div>
+        <div class="rule-tag tag-teal">Preguntas</div>
+        <div class="rule-title">Palabras interrogativas del HSK 1</div>
+        <div class="rule-sub">En chino las palabras de pregunta van exactamente donde iría la respuesta. No hay inversión del orden.</div>
+        <div class="rule-example ex-teal">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div><div class="ex-char">什么 shénme</div><div class="ex-tr">qué / cuál</div></div>
+            <div><div class="ex-char">谁 shuí</div><div class="ex-tr">quién</div></div>
+            <div><div class="ex-char">哪 nǎ</div><div class="ex-tr">cuál (de varios)</div></div>
+            <div><div class="ex-char">哪儿 nǎr</div><div class="ex-tr">dónde</div></div>
+            <div><div class="ex-char">几 jǐ</div><div class="ex-tr">cuántos (&lt;10)</div></div>
+            <div><div class="ex-char">多少 duōshǎo</div><div class="ex-tr">cuánto (cantidad)</div></div>
+            <div><div class="ex-char">怎么 zěnme</div><div class="ex-tr">cómo</div></div>
+            <div><div class="ex-char">多大 duōdà</div><div class="ex-tr">qué edad</div></div>
+          </div>
+        </div>
+        <div class="rule-note"><strong>⚡ Patrón:</strong> 你叫什么名字？— la pregunta usa el mismo orden que la respuesta: 我叫大卫。Solo reemplazas la respuesta por la palabra interrogativa.</div>
+      </div>
+
+    </div><!-- end track -->
+  </div>
+  <div class="cards-nav">
+    <button class="nav-btn" id="prev-btn" onclick="moveCard(-1)" disabled>← Anterior</button>
+    <div class="dots" id="rule-dots"></div>
+    <button class="nav-btn primary" id="next-btn" onclick="moveCard(1)">Siguiente →</button>
+  </div>
+</div>
+
+<!-- ══ APP SCREEN ══ -->
+<div id="app-screen" class="screen">
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <button class="top-back" onclick="goSplash()">←</button>
+      <h1>HSK <span>1</span></h1>
+    </div>
+    <div class="pills">
+      <div class="pill pill-green" id="sc">✓ 0</div>
+      <div class="pill pill-amber" id="rt" style="display:none">↩ 0</div>
+    </div>
+  </div>
+  <div class="tabs-wrap">
+    <div class="tabs">
+      <div class="tab active" onclick="setMode('char')"><span class="ti">字</span>Caracteres</div>
+      <div class="tab" onclick="setMode('verb')"><span class="ti">动</span>Verbos</div>
+      <div class="tab" onclick="setMode('fill')"><span class="ti">填</span>Completar</div>
+      <div class="tab" onclick="setMode('audio')"><span class="ti">🔊</span>Audio</div>
+      <div class="tab" onclick="setMode('dialogue')"><span class="ti">💬</span>Diálogos</div>
+    </div>
+  </div>
+  <div class="prog-wrap">
+    <div class="prog" id="prog"></div>
+    <div class="prog-label" id="prog-label"></div>
+  </div>
+  <div class="main" id="area"></div>
+</div>
+
+<script>
+// ── REFRANES ──
+const REFRANES=[
+  {c:"学而时习之，不亦说乎？",p:"Xué ér shí xí zhī, bù yì yuè hū?",e:"Aprender y practicar constantemente, ¿no es acaso un placer? — Confucio"},
+  {c:"千里之行，始于足下。",p:"Qiān lǐ zhī xíng, shǐ yú zú xià.",e:"Un viaje de mil millas comienza con un solo paso. — Lao Tse"},
+  {c:"不怕慢，就怕站。",p:"Bù pà màn, jiù pà zhàn.",e:"No temas ir despacio, teme quedarte quieto."},
+  {c:"活到老，学到老。",p:"Huó dào lǎo, xué dào lǎo.",e:"Vive hasta ser viejo, aprende hasta ser viejo."},
+  {c:"书山有路勤为径。",p:"Shū shān yǒu lù qín wéi jìng.",e:"En la montaña del saber, el camino es el esfuerzo."},
+  {c:"熟能生巧。",p:"Shú néng shēng qiǎo.",e:"La práctica hace al maestro."},
+  {c:"失败是成功之母。",p:"Shībài shì chénggōng zhī mǔ.",e:"El fracaso es la madre del éxito."},
+  {c:"一步一个脚印。",p:"Yī bù yī gè jiǎoyìn.",e:"Un paso a la vez, dejando huella en cada uno."}
+];
+
+// ── NAVIGATION ──
+function showScreen(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+function goSplash(){ showScreen('splash'); }
+function goRules(){ showScreen('rules-screen'); buildDots(); moveCard(0,true); }
+function goApp(){ showScreen('app-screen'); if(!appStarted){appStarted=true;setMode('char');} }
+
+// pick random refran
+const rf=REFRANES[Math.floor(Math.random()*REFRANES.length)];
+document.getElementById('rf-char').textContent=rf.c;
+document.getElementById('rf-py').textContent=rf.p;
+document.getElementById('rf-es').textContent=rf.e;
+
+// ── RULES CARDS ──
+let ruleCur=0;
+const TOTAL_RULES=9;
+function buildDots(){
+  const d=document.getElementById('rule-dots');
+  d.innerHTML=[...Array(TOTAL_RULES)].map((_,i)=>`<div class="dot${i===0?' active':''}" id="dot${i}"></div>`).join('');
+}
+function moveCard(dir, init){
+  if(!init) ruleCur+=dir;
+  ruleCur=Math.max(0,Math.min(TOTAL_RULES-1,ruleCur));
+  const trackW=document.querySelector('.rule-card').parentElement.children[0].offsetWidth||window.innerWidth-16;
+  const cardW=window.innerWidth-40+16;
+  document.getElementById('cards-track').style.transform=`translateX(${-ruleCur*(window.innerWidth-24)}px)`;
+  document.getElementById('rule-prog').textContent=(ruleCur+1)+' / '+TOTAL_RULES;
+  document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===ruleCur));
+  document.getElementById('prev-btn').disabled=ruleCur===0;
+  const nb=document.getElementById('next-btn');
+  if(ruleCur===TOTAL_RULES-1){ nb.textContent='¡Practicar! →'; nb.onclick=goApp; }
+  else { nb.textContent='Siguiente →'; nb.onclick=()=>moveCard(1); }
+}
+buildDots();
+
+// touch swipe for rules
+let tsX=0;
+document.getElementById('cards-vp').addEventListener('touchstart',e=>{tsX=e.touches[0].clientX;},{passive:true});
+document.getElementById('cards-vp').addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-tsX;
+  if(Math.abs(dx)>40) moveCard(dx<0?1:-1);
+},{passive:true});
+
+// ── APP DATA ──
+const VOCAB=[
+  {c:"你",p:"nǐ",t:"3°",m:"tú",l:1},{c:"好",p:"hǎo",t:"3°",m:"bueno / hola",l:1},{c:"您",p:"nín",t:"2°",m:"usted (formal)",l:1},{c:"我",p:"wǒ",t:"3°",m:"yo",l:1},{c:"再见",p:"zàijiàn",t:"4°+4°",m:"adiós",l:2},{c:"谢谢",p:"xièxie",t:"4°+neut",m:"gracias",l:2},{c:"不",p:"bù",t:"4°",m:"no (negación)",l:2},{c:"是",p:"shì",t:"4°",m:"ser / estar",l:3},{c:"什么",p:"shénme",t:"2°+neut",m:"qué / cuál",l:3},{c:"名字",p:"míngzi",t:"2°+neut",m:"nombre",l:3},{c:"叫",p:"jiào",t:"4°",m:"llamarse",l:3},{c:"老师",p:"lǎoshī",t:"3°+1°",m:"maestro/a",l:3},{c:"学生",p:"xuésheng",t:"2°+neut",m:"estudiante",l:3},{c:"人",p:"rén",t:"2°",m:"persona",l:3},{c:"中国",p:"Zhōngguó",t:"1°+2°",m:"China",l:3},{c:"美国",p:"Měiguó",t:"3°+2°",m:"Estados Unidos",l:3},{c:"她",p:"tā",t:"1°",m:"ella",l:4},{c:"他",p:"tā",t:"1°",m:"él",l:4},{c:"谁",p:"shuí",t:"2°",m:"quién",l:4},{c:"的",p:"de",t:"neut",m:"partícula posesiva",l:4},{c:"汉语",p:"Hànyǔ",t:"4°+3°",m:"idioma chino",l:4},{c:"朋友",p:"péngyou",t:"2°+neut",m:"amigo/a",l:4},{c:"家",p:"jiā",t:"1°",m:"casa / familia",l:5},{c:"有",p:"yǒu",t:"3°",m:"tener / haber",l:5},{c:"几",p:"jǐ",t:"3°",m:"cuántos",l:5},{c:"女儿",p:"nǚ'ér",t:"3°+2°",m:"hija",l:5},{c:"岁",p:"suì",t:"4°",m:"años de edad",l:5},{c:"今年",p:"jīnnián",t:"1°+2°",m:"este año",l:5},{c:"爸爸",p:"bàba",t:"4°+neut",m:"papá",l:6},{c:"妈妈",p:"māma",t:"1°+neut",m:"mamá",l:6},{c:"哥哥",p:"gēge",t:"1°+neut",m:"hermano mayor",l:6},{c:"姐姐",p:"jiějie",t:"3°+neut",m:"hermana mayor",l:6},{c:"弟弟",p:"dìdi",t:"4°+neut",m:"hermano menor",l:6},{c:"妹妹",p:"mèimei",t:"4°+neut",m:"hermana menor",l:6},{c:"儿子",p:"érzi",t:"2°+neut",m:"hijo",l:6},{c:"医生",p:"yīshēng",t:"1°+1°",m:"médico",l:7},{c:"工作",p:"gōngzuò",t:"1°+4°",m:"trabajo / trabajar",l:7},{c:"在",p:"zài",t:"4°",m:"estar en (lugar)",l:7},{c:"哪儿",p:"nǎr",t:"3°",m:"dónde",l:7},{c:"学校",p:"xuéxiào",t:"2°+4°",m:"escuela",l:7},{c:"书",p:"shū",t:"1°",m:"libro",l:8},{c:"多少",p:"duōshǎo",t:"1°+3°",m:"cuánto",l:8},{c:"钱",p:"qián",t:"2°",m:"dinero",l:8},{c:"买",p:"mǎi",t:"3°",m:"comprar",l:8},{c:"苹果",p:"píngguǒ",t:"2°+3°",m:"manzana",l:9},{c:"水",p:"shuǐ",t:"3°",m:"agua",l:9},{c:"喝",p:"hē",t:"1°",m:"beber",l:9},{c:"吃",p:"chī",t:"1°",m:"comer",l:9},{c:"米饭",p:"mǐfàn",t:"3°+4°",m:"arroz cocido",l:9},{c:"菜",p:"cài",t:"4°",m:"verdura / platillo",l:9},{c:"茶",p:"chá",t:"2°",m:"té",l:9},{c:"牛奶",p:"niúnǎi",t:"2°+3°",m:"leche",l:9},{c:"今天",p:"jīntiān",t:"1°+1°",m:"hoy",l:10},{c:"明天",p:"míngtiān",t:"2°+1°",m:"mañana",l:10},{c:"昨天",p:"zuótiān",t:"2°+1°",m:"ayer",l:10},{c:"星期",p:"xīngqī",t:"1°+1°",m:"semana",l:10},{c:"现在",p:"xiànzài",t:"4°+4°",m:"ahora",l:10},{c:"上午",p:"shàngwǔ",t:"4°+3°",m:"mañana (am)",l:10},{c:"下午",p:"xiàwǔ",t:"4°+3°",m:"tarde (pm)",l:10},{c:"去",p:"qù",t:"4°",m:"ir",l:11},{c:"来",p:"lái",t:"2°",m:"venir",l:11},{c:"坐",p:"zuò",t:"4°",m:"ir en (transporte)",l:11},{c:"会",p:"huì",t:"4°",m:"saber / poder",l:11},{c:"飞机",p:"fēijī",t:"1°+1°",m:"avión",l:11},{c:"出租车",p:"chūzūchē",t:"1°+1°+1°",m:"taxi",l:11},{c:"火车",p:"huǒchē",t:"3°+1°",m:"tren",l:11},{c:"走",p:"zǒu",t:"3°",m:"caminar / irse",l:11},{c:"看",p:"kàn",t:"4°",m:"ver / mirar",l:12},{c:"电视",p:"diànshì",t:"4°+4°",m:"televisión",l:12},{c:"听",p:"tīng",t:"1°",m:"escuchar",l:12},{c:"音乐",p:"yīnyuè",t:"1°+4°",m:"música",l:12},{c:"说",p:"shuō",t:"1°",m:"hablar / decir",l:12},{c:"写",p:"xiě",t:"3°",m:"escribir",l:12},{c:"天气",p:"tiānqì",t:"1°+4°",m:"clima",l:13},{c:"冷",p:"lěng",t:"3°",m:"frío",l:13},{c:"热",p:"rè",t:"4°",m:"caliente",l:13},{c:"下雨",p:"xiàyǔ",t:"4°+3°",m:"llover",l:13},{c:"太",p:"tài",t:"4°",m:"demasiado",l:13},{c:"非常",p:"fēicháng",t:"1°+2°",m:"muy / extremadamente",l:13},{c:"喜欢",p:"xǐhuan",t:"3°+neut",m:"gustar / querer",l:14},{c:"游泳",p:"yóuyǒng",t:"2°+3°",m:"nadar",l:14},{c:"跑步",p:"pǎobù",t:"3°+4°",m:"correr",l:14},{c:"电脑",p:"diànnǎo",t:"4°+3°",m:"computadora",l:14},{c:"手机",p:"shǒujī",t:"3°+1°",m:"celular",l:14},{c:"漂亮",p:"piàoliang",t:"4°+neut",m:"bonito/a",l:15},{c:"高兴",p:"gāoxìng",t:"1°+4°",m:"contento/a",l:15},{c:"认识",p:"rènshi",t:"4°+neut",m:"conocer a alguien",l:15},{c:"前面",p:"qiánmiàn",t:"2°+4°",m:"al frente",l:15},{c:"旁边",p:"pángbiān",t:"2°+1°",m:"al lado",l:15},{c:"对不起",p:"duìbuqǐ",t:"4°+neut+3°",m:"lo siento",l:1},{c:"没关系",p:"méiguānxi",t:"2°+1°+neut",m:"no hay problema",l:1}
+];
+const VERB_EX=[
+  {q:"¿Cuál verbo completa la oración?",s:"我___学中文。",sp:"Wǒ ___ xué Zhōngwén.",st:"Yo ___ estudiar chino.",opts:[{t:"会",p:"huì",gl:"saber/poder"},{t:"坐",p:"zuò",gl:"ir en transporte"},{t:"去",p:"qù",gl:"ir"},{t:"看",p:"kàn",gl:"ver"}],a:0,e:"会 (huì) expresa habilidad aprendida. 我会学中文 = Sé estudiar chino."},
+  {q:"¿Cuál verbo completa la oración?",s:"我们___出租车去机场。",sp:"Wǒmen ___ chūzūchē qù jīchǎng.",st:"Nosotros ___ en taxi al aeropuerto.",opts:[{t:"会",p:"huì",gl:"saber/poder"},{t:"坐",p:"zuò",gl:"ir en transporte"},{t:"来",p:"lái",gl:"venir"},{t:"走",p:"zǒu",gl:"caminar"}],a:1,e:"坐 + transporte = viajar en ese medio. 坐出租车 = ir en taxi."},
+  {q:"¿Cuál verbo es correcto?",s:"她___说汉语。",sp:"Tā ___ shuō Hànyǔ.",st:"Ella ___ hablar chino.",opts:[{t:"坐",p:"zuò",gl:"ir en transporte"},{t:"是",p:"shì",gl:"ser/estar"},{t:"会",p:"huì",gl:"saber/poder"},{t:"有",p:"yǒu",gl:"tener"}],a:2,e:"会 indica habilidad aprendida. 她会说汉语 = Ella sabe hablar chino."},
+  {q:"¿Cuál verbo completa la oración?",s:"你___飞机去北京吗？",sp:"Nǐ ___ fēijī qù Běijīng ma?",st:"¿Vas en avión a Beijing?",opts:[{t:"是",p:"shì",gl:"ser/estar"},{t:"有",p:"yǒu",gl:"tener"},{t:"坐",p:"zuò",gl:"ir en transporte"},{t:"叫",p:"jiào",gl:"llamarse"}],a:2,e:"坐飞机 = viajar en avión. 坐 siempre precede al medio de transporte."},
+  {q:"¿Cuál verbo usar aquí?",s:"明天我___去学校。",sp:"Míngtiān wǒ ___ qù xuéxiào.",st:"Mañana yo ___ ir a la escuela.",opts:[{t:"坐",p:"zuò",gl:"ir en transporte"},{t:"喝",p:"hē",gl:"beber"},{t:"不",p:"bù",gl:"no"},{t:"会",p:"huì",gl:"saber/poder"}],a:3,e:"会 expresa posibilidad futura. 我会去 = Voy a ir / Iré."},
+  {q:"¿Cuál verbo completa la oración?",s:"我___火车去上海。",sp:"Wǒ ___ huǒchē qù Shànghǎi.",st:"Yo ___ en tren a Shanghái.",opts:[{t:"会",p:"huì",gl:"saber/poder"},{t:"坐",p:"zuò",gl:"ir en transporte"},{t:"去",p:"qù",gl:"ir"},{t:"来",p:"lái",gl:"venir"}],a:1,e:"坐火车 = viajar en tren. Mismo patrón: 坐 + medio de transporte."},
+  {q:"¿Cuál es correcto?",s:"他不___游泳。",sp:"Tā bù ___ yóuyǒng.",st:"Él no ___ nadar.",opts:[{t:"坐",p:"zuò",gl:"ir en transporte"},{t:"去",p:"qù",gl:"ir"},{t:"会",p:"huì",gl:"saber/poder"},{t:"来",p:"lái",gl:"venir"}],a:2,e:"他不会游泳 = Él no sabe nadar. 不会 = no saber hacer algo."}
+];
+const FILL_EX=[
+  {q:"Elige la palabra que completa la oración:",s:"你叫（ ）名字？",sp:"Nǐ jiào ( ) míngzi?",st:"¿Cómo ( ) llamas?",opts:[{t:"什么",p:"shénme",gl:"qué/cuál"},{t:"是",p:"shì",gl:"ser/estar"},{t:"不",p:"bù",gl:"no"},{t:"吗",p:"ma",gl:"partícula de pregunta"}],a:0,e:"你叫什么名字 = ¿Cómo te llamas? 什么 = qué/cuál."},
+  {q:"Completa con la palabra correcta:",s:"大卫不是老师，他是（ ）。",sp:"Dàwèi bú shì lǎoshī, tā shì ( ).",st:"David no es maestro, él es ( ).",opts:[{t:"老师",p:"lǎoshī",gl:"maestro"},{t:"学生",p:"xuésheng",gl:"estudiante"},{t:"中国",p:"Zhōngguó",gl:"China"},{t:"美国",p:"Měiguó",gl:"EE.UU."}],a:1,e:"Si no es 老师, la lógica apunta a 学生 (estudiante)."},
+  {q:"Elige la partícula correcta:",s:"您是老师（ ）？",sp:"Nín shì lǎoshī ( )?",st:"¿Usted es maestro ( )?",opts:[{t:"什么",p:"shénme",gl:"qué"},{t:"是",p:"shì",gl:"ser"},{t:"不",p:"bù",gl:"no"},{t:"吗",p:"ma",gl:"partícula pregunta"}],a:3,e:"吗 convierte una afirmación en pregunta. Va siempre al final de la oración."},
+  {q:"Completa con la negación:",s:"我（ ）是中国人，我是墨西哥人。",sp:"Wǒ ( ) shì Zhōngguó rén.",st:"Yo ( ) soy chino, soy mexicano.",opts:[{t:"什么",p:"shénme",gl:"qué"},{t:"是",p:"shì",gl:"ser"},{t:"不",p:"bù",gl:"no"},{t:"吗",p:"ma",gl:"partícula pregunta"}],a:2,e:"不 = negación. 我不是 = yo no soy. Antes de 是 se pronuncia bú (2° tono)."},
+  {q:"Elige la palabra correcta:",s:"你喜欢（ ）运动？",sp:"Nǐ xǐhuan ( ) yùndòng?",st:"¿( ) deporte te gusta?",opts:[{t:"什么",p:"shénme",gl:"qué"},{t:"是",p:"shì",gl:"ser"},{t:"在",p:"zài",gl:"estar en"},{t:"吗",p:"ma",gl:"partícula pregunta"}],a:0,e:"什么运动 = qué deporte. 什么 pregunta por tipo o clase de algo."},
+  {q:"Completa la oración:",s:"今天天气（ ）冷。",sp:"Jīntiān tiānqì ( ) lěng.",st:"Hoy el clima es ( ) frío.",opts:[{t:"很",p:"hěn",gl:"muy"},{t:"是",p:"shì",gl:"ser"},{t:"有",p:"yǒu",gl:"tener"},{t:"在",p:"zài",gl:"estar en"}],a:0,e:"很冷 = muy frío. 很 conecta el sujeto con el adjetivo en chino."},
+  {q:"Elige la palabra correcta:",s:"他（ ）上海人。",sp:"Tā ( ) Shànghǎi rén.",st:"Él ( ) de Shanghái.",opts:[{t:"不是",p:"bú shì",gl:"no es"},{t:"是",p:"shì",gl:"es"},{t:"有",p:"yǒu",gl:"tiene"},{t:"叫",p:"jiào",gl:"se llama"}],a:1,e:"他是上海人 = Él es de Shanghái. 是 identifica origen o identidad."}
+];
+const DIALOGUES=[
+  {title:"En la escuela",lesson:"Lecciones 1–4",scene:"Li Yue conoce a un nuevo compañero.",lines:[{spk:"A",name:"Li Yue",char:"你好！你叫什么名字？",py:"Nǐ hǎo! Nǐ jiào shénme míngzi?",tr:"¡Hola! ¿Cómo te llamas?"},{spk:"B",name:"David",char:"你好！我叫大卫。你是老师吗？",py:"Nǐ hǎo! Wǒ jiào Dàwèi. Nǐ shì lǎoshī ma?",tr:"¡Hola! Me llamo David. ¿Eres maestro?"},{spk:"A",name:"Li Yue",char:"不，我不是老师，我是学生。",py:"Bù, wǒ bú shì lǎoshī, wǒ shì xuésheng.",tr:"No, no soy maestro, soy estudiante."},{spk:"B",name:"David",char:"我也是学生！很高兴认识你。",py:"Wǒ yě shì xuésheng! Hěn gāoxìng rènshi nǐ.",tr:"¡Yo también! Mucho gusto."},{spk:"A",name:"Li Yue",char:"再见！",py:"Zàijiàn!",tr:"¡Hasta luego!"}],questions:[{q:"¿Li Yue es maestro o estudiante?",opts:["Maestro","Estudiante","Médico","No dice"],a:1,e:"Li Yue dice: 我不是老师，我是学生."},{q:"¿Cómo se llama el personaje B?",opts:["Li Yue","Wang Fang","大卫 (David)","No dice"],a:2,e:"Él dice: 我叫大卫."},{q:"¿Qué significa 很高兴认识你?",opts:["Adiós","Mucho gusto","¿Cómo te llamas?","Soy estudiante"],a:1,e:"很高兴 = muy contento. 认识你 = conocerte. Expresión estándar de presentación."}]},
+  {title:"¿A dónde vas?",lesson:"Lecciones 10–11",scene:"Ana y Wang hablan sobre sus planes del día.",lines:[{spk:"A",name:"Ana",char:"今天你去哪儿？",py:"Jīntiān nǐ qù nǎr?",tr:"¿A dónde vas hoy?"},{spk:"B",name:"Wang",char:"我去学校。你呢？",py:"Wǒ qù xuéxiào. Nǐ ne?",tr:"Voy a la escuela. ¿Y tú?"},{spk:"A",name:"Ana",char:"我去银行。我坐出租车去。",py:"Wǒ qù yínháng. Wǒ zuò chūzūchē qù.",tr:"Voy al banco. Voy en taxi."},{spk:"B",name:"Wang",char:"现在几点？",py:"Xiànzài jǐ diǎn?",tr:"¿Qué hora es ahora?"},{spk:"A",name:"Ana",char:"现在上午九点。再见！",py:"Xiànzài shàngwǔ jiǔ diǎn. Zàijiàn!",tr:"Son las 9 am. ¡Hasta luego!"}],questions:[{q:"¿A dónde va Ana?",opts:["A la escuela","Al hospital","Al banco","A casa"],a:2,e:"Ana dice: 我去银行 — Voy al banco."},{q:"¿Cómo va Ana?",opts:["En tren","Caminando","En avión","En taxi"],a:3,e:"Ana dice: 我坐出租车去. 坐出租车 = ir en taxi."},{q:"¿Qué hora es?",opts:["3pm","9am","12pm","No dice"],a:1,e:"Ana dice: 上午九点 = las 9 de la mañana."}]},
+  {title:"¿Te gusta el té?",lesson:"Lecciones 9 y 14",scene:"Dos amigos charlan en casa por la tarde.",lines:[{spk:"A",name:"Mei",char:"你喝什么？茶还是水？",py:"Nǐ hē shénme? Chá háishi shuǐ?",tr:"¿Qué bebes? ¿Té o agua?"},{spk:"B",name:"Carlos",char:"我喝茶。谢谢！",py:"Wǒ hē chá. Xièxie!",tr:"Bebo té. ¡Gracias!"},{spk:"A",name:"Mei",char:"你喜欢喝茶吗？",py:"Nǐ xǐhuan hē chá ma?",tr:"¿Te gusta tomar té?"},{spk:"B",name:"Carlos",char:"非常喜欢！你呢？",py:"Fēicháng xǐhuan! Nǐ ne?",tr:"¡Me gusta muchísimo! ¿Y tú?"},{spk:"A",name:"Mei",char:"我也喜欢，但是我现在喝牛奶。",py:"Wǒ yě xǐhuan, dànshì wǒ xiànzài hē niúnǎi.",tr:"A mí también, pero ahora bebo leche."}],questions:[{q:"¿Qué bebe Carlos?",opts:["Agua","Leche","Té","Café"],a:2,e:"Carlos dice: 我喝茶."},{q:"¿Qué bebe Mei ahora?",opts:["Té","Agua","Jugo","Leche"],a:3,e:"Mei dice: 我现在喝牛奶. 现在 = ahora."},{q:"¿Qué significa 非常喜欢?",opts:["No me gusta","Me gusta poco","Me gusta muchísimo","No sé"],a:2,e:"非常 = muy/extremadamente. 喜欢 = gustar. 非常喜欢 = me gusta muchísimo."}]},
+  {title:"El clima hoy",lesson:"Lección 13",scene:"Dos compañeros hablan por la mañana.",lines:[{spk:"A",name:"Liu",char:"今天天气怎么样？",py:"Jīntiān tiānqì zěnmeyàng?",tr:"¿Cómo está el clima hoy?"},{spk:"B",name:"Sara",char:"今天很冷，下雨了。",py:"Jīntiān hěn lěng, xià yǔ le.",tr:"Hoy hace mucho frío, está lloviendo."},{spk:"A",name:"Liu",char:"太冷了！你喜欢冷天气吗？",py:"Tài lěng le! Nǐ xǐhuan lěng tiānqì ma?",tr:"¡Hace demasiado frío! ¿Te gusta el frío?"},{spk:"B",name:"Sara",char:"不喜欢。我喜欢热天气。",py:"Bù xǐhuan. Wǒ xǐhuan rè tiānqì.",tr:"No me gusta. Me gusta el calor."},{spk:"A",name:"Liu",char:"我也不喜欢冷天气！",py:"Wǒ yě bù xǐhuan lěng tiānqì!",tr:"¡A mí tampoco!"}],questions:[{q:"¿Cómo está el clima?",opts:["Hace calor","Frío y lluvia","Soleado","Viento"],a:1,e:"Sara dice: 今天很冷，下雨了."},{q:"¿Qué clima le gusta a Sara?",opts:["Frío","Lluvioso","Caliente","Nublado"],a:2,e:"Sara dice: 我喜欢热天气."},{q:"¿Qué significa 太冷了?",opts:["Un poco frío","Frío normal","Demasiado frío","No hay frío"],a:2,e:"太 = demasiado. 冷 = frío. 太冷了 = hace demasiado frío."}]}
+];
+
+// ── APP STATE ──
+let appStarted=false, mode='char', cur=0, correctCount=0, answered=false;
+let pending=[], retryQueue=[], showPinyin=true;
+let dlgCur=0, dlgQCur=0, dlgScore=0;
+
+function speak(txt){
+  if(!window.speechSynthesis)return;
+  const u=new SpeechSynthesisUtterance(txt);
+  u.lang='zh-CN';u.rate=0.82;u.pitch=1;
+  speechSynthesis.cancel();speechSynthesis.speak(u);
+}
+function speakLines(lines){let i=0;function n(){if(i>=lines.length)return;speak(lines[i].char);i++;setTimeout(n,1900);}n();}
+function shuffle(a){return[...a].sort(()=>Math.random()-.5);}
+function getWrong(v,n){return shuffle(VOCAB.filter(x=>x!==v)).slice(0,n);}
+
+function buildCharEx(){return shuffle(VOCAB).slice(0,18).map(v=>{const ws=getWrong(v,3).map(w=>w.m);const opts=shuffle([v.m,...ws]);return{type:'char',char:v.c,pinyin:v.p,tone:v.t,meaning:v.m,opts,a:opts.indexOf(v.m),e:`${v.c} (${v.p}) = ${v.m}. Lección ${v.l}.`};});}
+function buildAudioEx(){return shuffle(VOCAB).slice(0,15).map(v=>{const ws=getWrong(v,3).map(w=>w.c);const opts=shuffle([v.c,...ws]);return{type:'audio',char:v.c,pinyin:v.p,meaning:v.m,opts,a:opts.indexOf(v.c),e:`${v.c} (${v.p}) = ${v.m}.`};});}
+
+function setMode(m2){
+  mode=m2;cur=0;correctCount=0;answered=false;retryQueue=[];
+  if(m2==='char')pending=buildCharEx();
+  else if(m2==='verb')pending=shuffle(VERB_EX);
+  else if(m2==='fill')pending=shuffle(FILL_EX);
+  else if(m2==='audio')pending=buildAudioEx();
+  else if(m2==='dialogue'){pending=[];dlgCur=0;}
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['char','verb','fill','audio','dialogue'][i]===m2));
+  updPills();renderProg();render();
+}
+
+function updPills(){
+  document.getElementById('sc').textContent='✓ '+correctCount;
+  const rt=document.getElementById('rt');
+  if(retryQueue.length>0){rt.style.display='flex';rt.textContent='↩ '+retryQueue.length;}
+  else rt.style.display='none';
+}
+
+function renderProg(){
+  if(mode==='dialogue'){document.getElementById('prog').innerHTML='';document.getElementById('prog-label').textContent='';return;}
+  const dots=[];
+  for(let i=0;i<Math.min(correctCount,24);i++)dots.push('<div class="pd done"></div>');
+  if(dots.length<24)dots.push('<div class="pd cur"></div>');
+  const rem=Math.min(24-dots.length,pending.length-cur+retryQueue.length);
+  for(let i=0;i<rem;i++)dots.push(`<div class="pd${i>=(pending.length-cur)?' retry':''}"></div>`);
+  document.getElementById('prog').innerHTML=dots.join('');
+  document.getElementById('prog-label').textContent=correctCount+' correctas · '+(pending.length-cur+retryQueue.length)+' restantes'+(retryQueue.length>0?' · '+retryQueue.length+' por repetir':'');
+}
+
+function getCurrent(){
+  if(cur<pending.length)return{ex:pending[cur],isRetry:false};
+  if(retryQueue.length>0)return{ex:retryQueue[0],isRetry:true};
+  return null;
+}
+
+function render(){
+  if(mode==='dialogue'){renderDlg();return;}
+  renderProg();updPills();
+  const res=getCurrent();
+  if(!res){showDone();return;}
+  const{ex,isRetry}=res;
+  const area=document.getElementById('area');
+  const useGrid=ex.type==='audio';
+  const rb=isRetry?'<div class="retry-banner">↩ Repetición — salió mal antes</div>':'';
+  let top='';
+  if(ex.type==='char'){
+    top=`<div class="etype">Memoria de caracteres</div>${rb}<div class="qtext">¿Qué significa este carácter?</div>
+    <div style="text-align:center;margin-bottom:14px;">
+      <div class="char-big">${ex.char}</div>
+      <div class="pinyin-row"><span class="pyin">${ex.pinyin}</span><span class="tone-badge">${ex.tone}</span>
+      <button class="audio-btn" onclick="speak('${ex.char}')">🔊</button></div>
+    </div>`;
+  } else if(ex.type==='audio'){
+    top=`<div class="etype">Modo audio</div>${rb}<div class="qtext">Escucha y selecciona el carácter correcto:</div>
+    <div style="text-align:center;margin-bottom:14px;">
+      <button class="audio-btn audio-btn-lg" onclick="speak('${ex.char}')">🔊</button>
+      <div style="font-size:11px;color:var(--text3);margin-top:5px;">Toca para escuchar</div>
+    </div>`;
+  } else {
+    const lvl=`<div class="level-row"><span class="level-label">Pinyin:</span>
+      <div class="toggle-wrap">
+        <div class="toggle-opt ${showPinyin?'active':''}" onclick="togglePy(true)">Visible</div>
+        <div class="toggle-opt ${!showPinyin?'active':''}" onclick="togglePy(false)">Oculto</div>
+      </div></div>`;
+    const label=ex.type==='fill'?'Completar oración':'Verbos en contexto';
+    top=`<div class="etype">${label}</div>${rb}${lvl}<div class="qtext">${ex.q}</div>
+    <div class="sentence-box">
+      <span style="font-family:'Noto Sans SC',sans-serif;">${ex.s}</span>
+      ${showPinyin?`<div class="pinyin-line">${ex.sp}</div>`:''}
+      <div class="trans-line">${ex.st}</div>
+    </div>`;
+  }
+  let optsHtml='';
+  if(ex.type==='char'){
+    optsHtml=ex.opts.map((o,i)=>`<button class="opt" id="o${i}" onclick="choose(${i})">${o}</button>`).join('');
+  } else if(ex.type==='audio'){
+    optsHtml=ex.opts.map((o,i)=>`<button class="opt" id="o${i}" onclick="choose(${i})"><span class="opt-char">${o}</span></button>`).join('');
+  } else {
+    optsHtml=ex.opts.map((o,i)=>`<button class="opt" id="o${i}" onclick="choose(${i})">
+      <span class="opt-char">${o.t}</span>
+      ${showPinyin?`<span style="font-size:11px;color:var(--text2);margin-right:4px;">${o.p}</span>`:''}
+      <span style="font-size:11px;color:var(--text3);">— ${o.gl}</span>
+    </button>`).join('');
+  }
+  area.innerHTML=`<div class="card${isRetry?' is-retry':''}">${top}
+    <div class="${useGrid?'opts2':'opts'}">${optsHtml}</div>
+    <div id="fb" style="display:none"></div>
+  </div>
+  <button class="nxt" id="nxt" style="display:none" onclick="nextQ()">Siguiente →</button>`;
+  answered=false;
+}
+
+function togglePy(v){showPinyin=v;render();}
+
+function choose(idx){
+  if(answered)return;
+  answered=true;
+  const{ex,isRetry}=getCurrent();
+  const ok=idx===ex.a;
+  document.querySelectorAll('.opt').forEach((b,i)=>{
+    b.disabled=true;
+    if(i===ex.a)b.classList.add('correct');
+    else if(i===idx&&!ok)b.classList.add('wrong');
+  });
+  const fb=document.getElementById('fb');
+  fb.style.display='block';fb.className='fb '+(ok?'c':'w');
+  if(ok){
+    correctCount++;
+    if(isRetry)retryQueue.shift();else cur++;
+    fb.textContent='✓ Correcto — '+ex.e;
+    if(ex.type==='char'||ex.type==='audio')speak(ex.char);
+  } else {
+    fb.textContent='✗ Incorrecto — '+ex.e+' Volverá a aparecer más adelante.';
+    const item=isRetry?retryQueue.shift():pending[cur++];
+    retryQueue.splice(Math.floor(Math.random()*Math.max(retryQueue.length,1))+1,0,item);
+    if(ex.type==='char'||ex.type==='audio')speak(ex.char);
+  }
+  updPills();
+  const nxt=document.getElementById('nxt');
+  nxt.textContent=ok?'Siguiente →':'Entendido →';
+  nxt.style.display='block';
+}
+
+function nextQ(){renderProg();updPills();if(!getCurrent()){showDone();return;}render();}
+
+function showDone(){
+  document.getElementById('area').innerHTML=`<div class="card done-card">
+    <div style="font-size:52px;margin-bottom:12px;">🏆</div>
+    <div style="font-size:28px;font-weight:600;margin-bottom:6px;">${correctCount} correctas</div>
+    <div style="font-size:14px;color:var(--text2);margin-bottom:24px;">¡Sin errores pendientes! Excelente sesión.</div>
+    <button class="nxt primary" onclick="setMode(mode)">Nueva ronda →</button>
+  </div>`;
+  document.getElementById('prog').innerHTML='';document.getElementById('prog-label').textContent='';document.getElementById('rt').style.display='none';
+}
+
+// ── DIALOGUE ──
+function renderDlg(){
+  if(dlgCur>=DIALOGUES.length){
+    document.getElementById('area').innerHTML=`<div class="card done-card">
+      <div style="font-size:48px;margin-bottom:12px;">💬</div>
+      <div style="font-size:22px;font-weight:600;margin-bottom:6px;">¡Todos los diálogos completados!</div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:20px;">Tu comprensión lectora avanza.</div>
+      <button class="nxt primary" onclick="dlgCur=0;renderDlg()">Reiniciar →</button>
+    </div>`;return;
+  }
+  const d=DIALOGUES[dlgCur];
+  const bubbles=d.lines.map(l=>{const r=l.spk==='B';
+    return`<div class="bubble-row${r?' right':''}">
+      <div class="avatar ${r?'av-b':'av-a'}">${l.name[0]}</div>
+      <div class="bubble">
+        <span class="bchar">${l.char}</span>
+        <span class="bpyin">${l.py}</span>
+        <span class="btrans">${l.tr}</span>
+      </div></div>`;}).join('');
+  document.getElementById('area').innerHTML=`<div class="card">
+    <div class="etype">Diálogo ${dlgCur+1} de ${DIALOGUES.length} · ${d.lesson}</div>
+    <div style="font-size:16px;font-weight:600;margin-bottom:4px;">${d.title}</div>
+    <div class="dialogue-scene">${d.scene}</div>
+    <div style="text-align:center;margin-bottom:12px;">
+      <button class="audio-btn audio-btn-lg" onclick="speakLines(${JSON.stringify(d.lines).replace(/"/g,'&quot;')})">🔊</button>
+      <div style="font-size:11px;color:var(--text3);margin-top:4px;">Escuchar diálogo completo</div>
+    </div>
+    <div class="bubble-wrap">${bubbles}</div>
+    <button class="nxt primary" onclick="startDlgQ()">Responder preguntas →</button>
+  </div>`;
+}
+
+function startDlgQ(){dlgQCur=0;dlgScore=0;renderDlgQ();}
+
+function renderDlgQ(){
+  const d=DIALOGUES[dlgCur];
+  if(dlgQCur>=d.questions.length){
+    document.getElementById('area').innerHTML=`<div class="card done-card">
+      <div style="font-size:40px;margin-bottom:10px;">${dlgScore===d.questions.length?'⭐':'👍'}</div>
+      <div style="font-size:24px;font-weight:600;margin-bottom:6px;">${dlgScore} / ${d.questions.length}</div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:20px;">${dlgScore===d.questions.length?'¡Comprensión perfecta!':'Sigue practicando.'}</div>
+      <button class="nxt" style="margin-bottom:8px;" onclick="dlgCur--;renderDlg()">← Releer</button>
+      <button class="nxt primary" onclick="dlgCur++;renderDlg()">Siguiente diálogo →</button>
+    </div>`;return;
+  }
+  const q=d.questions[dlgQCur];
+  const opts=q.opts.map((o,i)=>`<button class="opt" id="dq${i}" onclick="chooseDlg(${i})">${o}</button>`).join('');
+  document.getElementById('area').innerHTML=`<div class="card">
+    <div class="etype">Comprensión · pregunta ${dlgQCur+1} de ${d.questions.length}</div>
+    <div class="qtext">${q.q}</div>
+    <div class="opts">${opts}</div>
+    <div id="dfb" style="display:none"></div>
+  </div>
+  <button class="nxt" id="dnxt" style="display:none" onclick="dlgQCur++;renderDlgQ()">Siguiente →</button>`;
+}
+
+function chooseDlg(idx){
+  const q=DIALOGUES[dlgCur].questions[dlgQCur];
+  const ok=idx===q.a;
+  if(ok)dlgScore++;
+  document.querySelectorAll('[id^="dq"]').forEach((b,i)=>{
+    b.disabled=true;
+    if(i===q.a)b.classList.add('correct');
+    else if(i===idx&&!ok)b.classList.add('wrong');
+  });
+  const fb=document.getElementById('dfb');
+  fb.style.display='block';fb.className='fb '+(ok?'c':'w');
+  fb.textContent=(ok?'✓ Correcto — ':'✗ Incorrecto — ')+q.e;
+  document.getElementById('dnxt').style.display='block';
+}
+</script>
+</body>
+</html>
